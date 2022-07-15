@@ -30,7 +30,6 @@ public class AppTest {
         ByteArrayOutputStream output = TestUtil.setOutToByteArray();
         System.out.print("출력");
         String s = output.toString();
-        // 출력 방향을 표준 출력으로 변경
         TestUtil.clearSetOutToByteArray(output);
         // 출력된 문자열이 "출력"이 맞는지 검증
         assertThat(s).isEqualTo("출력");
@@ -48,13 +47,7 @@ public class AppTest {
 
     @Test
     public void 프로그램이_시작하면_시작문구_출력() {
-        Scanner sc = TestUtil.genScanner("종료");
-        ByteArrayOutputStream output = TestUtil.setOutToByteArray();
-
-        new App(sc).run();
-
-        String s = output.toString();
-        TestUtil.clearSetOutToByteArray(output);
+        String s = AppTestRunner.run("종료");
         // 프로그램 시작이되었을 때 문구가 잘 출력되는지 검증
         assertTrue(s.contains("== 명언 SSG =="));
         assertTrue(s.contains("명령)"));
@@ -62,22 +55,15 @@ public class AppTest {
 
     @Test
     public void 등록_입력시_명언과_작가를_입력받는다() {
-        Scanner sc = TestUtil.genScanner("""
+        String s = AppTestRunner.run("""
                 등록
                 나의 죽음을 적에게 알리지 마라
                 이순신
                 종료
                 """);
-        ByteArrayOutputStream output = TestUtil.setOutToByteArray();
 
-        new App(sc).run();
-
-        String s = output.toString();
-        TestUtil.clearSetOutToByteArray(output);
         // 등록을 입력했을 때, 명언과 작가를 입력받는 문구가 출력되는지 검증
         assertTrue(s.contains("명언 : "));
-
         assertTrue(s.contains("작가 : "));
-
     }
 }
