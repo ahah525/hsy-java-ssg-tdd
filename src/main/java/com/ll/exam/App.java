@@ -47,6 +47,17 @@ public class App {
                     break;
                 case "삭제":
                     int deleteId = rq.getIntParam("id", 0);
+                    // 입력된 id가 없는 경우 예외 처리
+                    if (deleteId == 0) {
+                        System.out.println("삭제?id=value 형식으로 입력해주세요.");
+                        break;
+                    }
+                    WiseSaying ws = findById(deleteId); // 삭제할 명언
+                    // 존재하지 않는 명언에 대한 예외 처리
+                    if (ws == null) {
+                        System.out.printf("%d번 명언은 존재하지 않습니다.\n", deleteId);
+                        break;
+                    }
                     // 명언 리스트에서 해당 명언 삭제
                     wiseSayings.remove(deleteId);
                     System.out.printf("%d번 명언이 삭제되었습니다.\n", deleteId);
@@ -54,5 +65,14 @@ public class App {
                     break outer;
             }
         }
+    }
+
+    // 명언 리스트에서 id로 명언 객체 조회하는 메서드
+    public WiseSaying findById(int id) {
+        for (WiseSaying ws : wiseSayings) {
+            if(ws.getId() == id)
+                return ws;
+        }
+        return null;
     }
 }

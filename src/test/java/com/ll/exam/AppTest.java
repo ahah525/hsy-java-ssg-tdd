@@ -123,4 +123,34 @@ public class AppTest {
         assertTrue(s.contains("1번 명언이 삭제되었습니다."));
         assertTrue(s.contains("2 / 나폴레옹 / 나에게 불가능이란 없다"));
     }
+
+    @Test
+    public void 존재하지_않는_명언삭제에대한_예외처리() {
+        String s = AppTestRunner.run("""
+                등록
+                나의 죽음을 적에게 알리지 마라
+                이순신
+                등록
+                나에게 불가능이란 없다
+                나폴레옹
+                목록
+                삭제?id=3
+                종료
+                """);
+        // 3번 명언은 삭제할 수 없다는 예외 문구가 출력되는지 검증
+        assertTrue(s.contains("3번 명언은 존재하지 않습니다."));
+    }
+
+    @Test
+    public void 잘못된_형식의_명언_삭제요청에_대한_예외처리() {
+        String s = AppTestRunner.run("""
+                등록
+                나의 죽음을 적에게 알리지 마라
+                이순신
+                삭제
+                종료
+                """);
+        // 3번 명언은 삭제할 수 없다는 예외 문구가 출력되는지 검증
+        assertTrue(s.contains("삭제?id=value 형식으로 입력해주세요."));
+    }
 }
