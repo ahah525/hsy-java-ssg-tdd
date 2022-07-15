@@ -82,4 +82,26 @@ public class AppTest {
         assertTrue(s.contains("1번 명언이 등록되었습니다."));
         assertTrue(s.contains("2번 명언이 등록되었습니다."));
     }
+
+    @Test
+    public void 목록_입력시_목록문구와_데이터_출력() {
+        String s = AppTestRunner.run("""
+                등록
+                나의 죽음을 적에게 알리지 마라
+                이순신
+                등록
+                나에게 불가능이란 없다
+                나폴레옹
+                목록
+                종료
+                """);
+        // 목록 입력시 등록 문구와 해당 데이터가 잘 출력되는지 검증
+        assertTrue(s.contains("번호 / 작가 / 명언"));
+        assertTrue(s.contains("----------------------"));
+        // 역순으로 명언이 출력되었는지 검증
+        assertTrue(s.contains("""
+        2 / 나폴레옹 / 나에게 불가능이란 없다
+        1 / 이순신 / 나의 죽음을 적에게 알리지 마라
+        """));
+    }
 }
