@@ -99,5 +99,18 @@ public class Util {
 
             }
         }
+
+        // 해당 경로의 디렉토리 내 모든 파일명을 리스트로 반환
+        public static List<String> getFileNamesFromDir(String path) {
+            try (Stream<Path> stream = Files.walk(Paths.get(path), 1)) {
+                return stream
+                        .filter(file -> !Files.isDirectory(file))
+                        .map(Path::getFileName)
+                        .map(Path::toString)
+                        .collect(Collectors.toList());
+            } catch (IOException e) {
+                return new ArrayList<>();
+            }
+        }
     }
 }

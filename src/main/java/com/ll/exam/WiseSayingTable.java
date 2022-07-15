@@ -3,7 +3,9 @@ package com.ll.exam;
 import com.ll.exam.domain.WiseSaying;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class WiseSayingTable {
     private String baseDir;
@@ -62,5 +64,32 @@ public class WiseSayingTable {
             return null;
         }
         return new WiseSaying((int) map.get("id"), (String) map.get("content"), (String) map.get("author"));
+    }
+
+    // 명언 전체 조회
+    public List<WiseSaying> findAll() {
+        List<Integer> fileIds = getFileIds();
+
+        // 해당 id에 대한 명언을 리스트로 반환
+        return fileIds
+                .stream()
+                .map(id -> findById(id))
+                .collect(Collectors.toList());
+    }
+
+    // 파일에 저장된 명언 id 반환 메서드
+    private List<Integer> getFileIds() {
+        // 명언 파일들이 저장된 디렉토리 내의 파일 이름 리스트 구하기
+        String path = "%s/wise_saying".formatted(baseDir);
+        List<String> fileNames = Util.file.getFileNamesFromDir(path);
+
+        // 해당 파일에서 id만 추출해서 리스트로 반환
+        return fileNames
+                .stream()
+                .filter(fileName -> !fileName.equals("last_id.txt"))
+                .map(fileName -> fileName.replace(".json", ""))
+                .mapToInt(Integer::parseInt)
+                .boxed()
+                .collect(Collectors.toList());
     }
 }
