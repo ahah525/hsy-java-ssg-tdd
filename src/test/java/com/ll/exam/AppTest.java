@@ -104,4 +104,23 @@ public class AppTest {
         1 / 이순신 / 나의 죽음을 적에게 알리지 마라
         """));
     }
+
+    @Test
+    public void 명언_삭제() {
+        String s = AppTestRunner.run("""
+                등록
+                나의 죽음을 적에게 알리지 마라
+                이순신
+                등록
+                나에게 불가능이란 없다
+                나폴레옹
+                목록
+                삭제?id=1
+                목록
+                종료
+                """);
+        // 1번 명언이 제대로 삭제되었는지 검증
+        assertTrue(s.contains("1번 명언이 삭제되었습니다."));
+        assertTrue(s.contains("2 / 나폴레옹 / 나에게 불가능이란 없다"));
+    }
 }

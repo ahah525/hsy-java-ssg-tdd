@@ -23,8 +23,9 @@ public class App {
         while (true) {
             System.out.print("명령) ");
             String cmd = sc.nextLine().trim();
+            Rq rq = new Rq(cmd);    // 입력받은 명령어 분리하기
 
-            switch (cmd) {
+            switch (rq.getPath()) {
                 case "등록":
                     int id = ++wiseSayingLastId;
                     System.out.print("명언 : ");
@@ -44,6 +45,11 @@ public class App {
                         System.out.printf("%d / %s / %s\n", ws.getId(), ws.getAuthor(), ws.getContent());
                     }
                     break;
+                case "삭제":
+                    int deleteId = rq.getIntParam("id", 0);
+                    // 명언 리스트에서 해당 명언 삭제
+                    wiseSayings.remove(deleteId);
+                    System.out.printf("%d번 명언이 삭제되었습니다.\n", deleteId);
                 case "종료":
                     break outer;
             }
