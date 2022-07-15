@@ -15,13 +15,15 @@ public class WiseSayingTable {
     }
 
     // 자동 넘버링된 id와 명언, 작가값으로 해당 명언을 파일에 저장하는 메서드
-    public void save(String content, String author) {
+    public WiseSaying save(String content, String author) {
         int id = getLastId() + 1;   // id 자동 넘버링
         // 명언 객체 생성후 파일에 저장
         WiseSaying wiseSaying = new WiseSaying(id, content, author);
         save(wiseSaying);
 
         saveLastId(id); // 마지막 저장된 id 업데이트
+
+        return wiseSaying;
     }
 
     // 명언 객체를 파일에 저장하는 메서드

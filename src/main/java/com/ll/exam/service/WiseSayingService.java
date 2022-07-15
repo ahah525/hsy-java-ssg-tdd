@@ -4,6 +4,7 @@ import com.ll.exam.domain.WiseSaying;
 import com.ll.exam.repository.WiseSayingRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WiseSayingService {
     WiseSayingRepository wiseSayingRepository;
@@ -15,7 +16,7 @@ public class WiseSayingService {
         return wiseSayingRepository.create(content, author);
     }
 
-    public ArrayList<WiseSaying> findAll() {
+    public List<WiseSaying> findAll() {
         return wiseSayingRepository.findAll();
     }
 

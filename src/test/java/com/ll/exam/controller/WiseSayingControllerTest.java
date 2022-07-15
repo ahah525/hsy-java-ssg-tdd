@@ -1,11 +1,29 @@
 package com.ll.exam.controller;
 
+import com.ll.exam.App;
 import com.ll.exam.AppTestRunner;
+import com.ll.exam.Util;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class WiseSayingControllerTest {
+    // 모든 테스트는 앱 모드를 test로 변경
+    @BeforeAll
+    public void beforeAll() {
+        App.mode = "test";
+    }
+
+    // 각 테스트 실행 전마다 수행
+    @BeforeEach
+    public void beforeEach() {
+        Util.file.deleteDir(App.getDefaultPath());   // test 디렉토리 삭제
+    }
+
     @Test
     public void 프로그램이_시작하면_시작문구_출력() {
         String s = AppTestRunner.run("종료");

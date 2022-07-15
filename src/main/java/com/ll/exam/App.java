@@ -5,8 +5,13 @@ import com.ll.exam.controller.WiseSayingController;
 import java.util.Scanner;
 
 public class App {
+    public static String mode = "prod"; // 실제 실행 모드
     private Scanner sc;
     private WiseSayingController wiseSayingController;
+
+    public static String getDefaultPath() {
+        return mode + "_data";
+    }
 
     public App(Scanner sc) {
         this.sc = sc;

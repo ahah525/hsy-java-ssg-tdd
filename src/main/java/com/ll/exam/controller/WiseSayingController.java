@@ -4,7 +4,7 @@ import com.ll.exam.Rq;
 import com.ll.exam.domain.WiseSaying;
 import com.ll.exam.service.WiseSayingService;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class WiseSayingController {
@@ -30,7 +30,7 @@ public class WiseSayingController {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
         // 명언 리스트 얻어오기
-        ArrayList<WiseSaying> wiseSayings = wiseSayingService.findAll();
+        List<WiseSaying> wiseSayings = wiseSayingService.findAll();
         // 최신 명언부터 역순 출력
         for (int i = wiseSayings.size() - 1 ; i >= 0; i--) {
             WiseSaying ws = wiseSayings.get(i);
