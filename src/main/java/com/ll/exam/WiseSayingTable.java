@@ -2,6 +2,9 @@ package com.ll.exam;
 
 import com.ll.exam.domain.WiseSaying;
 
+import java.io.File;
+import java.util.Map;
+
 public class WiseSayingTable {
     private String baseDir;
 
@@ -29,13 +32,13 @@ public class WiseSayingTable {
     }
 
     // 파일에 마지막 명언 id를 저장하는 메서드
-    private void saveLastId(int id) {
+    public void saveLastId(int id) {
         // 마지막으로 저장된 명언 id 파일에 저장
         Util.file.saveToFile("%s/wise_saying/last_id.txt".formatted(baseDir), id + "");
     }
 
     // 파일에 저장된 마지막 명언 id를 읽어 반환하는 메서드
-    private int getLastId() {
+    public int getLastId() {
         // 파일에서 마지막으로 저장된 명언 id 읽어오기
         String lastId = Util.file.readFromFile("%s/wise_saying/last_id.txt".formatted(baseDir), "");
         // 저장된 명언이 없으면 0 리턴
