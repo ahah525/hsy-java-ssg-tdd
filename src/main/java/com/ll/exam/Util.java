@@ -9,10 +9,40 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Util {
+    public static class json {
+        // 파일에서 얻은 json -> Map 변환 메서드
+        public static Map<String, Object> jsonToMapFromFile(String path) {
+            String json = file.readFromFile(path, "");
+            // json 데이터가 비어있으면 null 반환
+            if(json.isEmpty())
+                return null;
+            // json 객체 분리
+            final String[] jsonBits = json
+                    .replaceAll("\\{", "")
+                    .replaceAll("\\}", "")
+                    .split(",");
+            final List<Object> bits = Stream.of(jsonBits)
+                    .map(String::trim)
+                    .flatMap(bit -> Arrays.stream(bit.split(":")))
+                    .map(String::trim)
+                    .map(s -> s.startsWith("\"") ? s.substring(1, s.length() - 1) : Integer.parseInt(s))
+                    .collect(Collectors.toList());
+
+            Map<String, Object> map = IntStream
+                    .range(0, bits.size() / 2)
+                    .mapToObj(i -> Pair.of((String) bits.get(i * 2), bits.get(i * 2 + 1)))
+                    .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue(), (key1, key2) -> key1, LinkedHashMap::new));
+
+            return map;
+        }
+    }
+
     public static class file {
         public static void saveToFile(String path, String body) {
             try (RandomAccessFile stream = new RandomAccessFile(path, "rw");

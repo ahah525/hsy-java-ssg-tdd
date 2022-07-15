@@ -26,7 +26,7 @@ public class WiseSayingTable {
     public void save(WiseSaying wiseSaying) {
         // 해당 경로의 폴더 생성
         Util.file.mkdir("%s/wise_saying".formatted(baseDir));
-        String body = "내용";
+        String body = wiseSaying.toJson();    // json 형식으로 저장
         // 해당 경로에 명언의 id를 파일명으로 하여 body를 담아 파일 저장
         Util.file.saveToFile("%s/wise_saying/%d.json".formatted(baseDir, wiseSaying.getId()), body);
     }
@@ -45,5 +45,22 @@ public class WiseSayingTable {
         if(lastId.isEmpty())
             return 0;
         return Integer.parseInt(lastId);
+    }
+
+    // id로 파일을 찾아 데이터를 읽어 json을 Map으로 변환해 WiseSaying 객체로 반환하는 메서드
+    public WiseSaying findById(int id) {
+        // 해당 id에 대한 파일경로
+        String path = "%s/wise_saying/%d.json".formatted(baseDir, id);
+        // 해당 파일이 존재하는지 여부 검사
+        if (!new File(path).exists()) {
+            return null;
+        }
+        // 파일에서 읽어온 json -> Map으로 변환한 객체
+        Map<String, Object> map = Util.json.jsonToMapFromFile(path);
+        // 값이 널이면(파일에 읽어온 json에 값이 없었으면)
+        if (map == null) {
+            return null;
+        }
+        return new WiseSaying((int) map.get("id"), (String) map.get("content"), (String) map.get("author"));
     }
 }
