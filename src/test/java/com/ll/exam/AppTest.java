@@ -125,7 +125,7 @@ public class AppTest {
     }
 
     @Test
-    public void 존재하지_않는_명언삭제에대한_예외처리() {
+    public void 존재하지_않는_명언삭제에_대한_예외처리() {
         String s = AppTestRunner.run("""
                 등록
                 나의 죽음을 적에게 알리지 마라
@@ -150,7 +150,59 @@ public class AppTest {
                 삭제
                 종료
                 """);
-        // 3번 명언은 삭제할 수 없다는 예외 문구가 출력되는지 검증
+        // 잘못된 형식으로 삭제 요청을 했을 때 정정 문구가 출력되는지 검증
         assertTrue(s.contains("삭제?id=value 형식으로 입력해주세요."));
+    }
+
+    @Test
+    public void 수정_입력시_재입력문구_출력후_명언수정() {
+        String s = AppTestRunner.run("""
+                등록
+                나의 죽음을 적에게 알리지 마라
+                이순신
+                등록
+                나에게 불가능이란 없다
+                나폴레옹
+                수정?id=1
+                늦었다고 생각할 때가 진짜 늦었다
+                박명수
+                목록
+                종료
+                """);
+        // 1번 명언이 잘 수정되었는지 검증
+        assertTrue(s.contains("명언(기존) : 나의 죽음을 적에게 알리지 마라"));
+        assertTrue(s.contains("명언 : "));
+        assertTrue(s.contains("작가(기존) : 이순신"));
+        assertTrue(s.contains("작가 : "));
+        assertTrue(s.contains("1 / 박명수 / 늦었다고 생각할 때가 진짜 늦었다"));
+    }
+
+    @Test
+    public void 존재하지_않는_명언수정에_대한_예외처리() {
+        String s = AppTestRunner.run("""
+                등록
+                나의 죽음을 적에게 알리지 마라
+                이순신
+                등록
+                나에게 불가능이란 없다
+                나폴레옹
+                목록
+                수정?id=3
+                종료
+                """);
+        // 3번 명언은 수정할 수 없다는 예외 문구가 출력되는지 검증
+        assertTrue(s.contains("3번 명언은 존재하지 않습니다."));
+    }
+
+    @Test void 잘못된_형식의_명언_수정요청에_대한_예외처리() {
+        String s = AppTestRunner.run("""
+                등록
+                나의 죽음을 적에게 알리지 마라
+                이순신
+                수정
+                종료
+                """);
+        // 잘못된 형식으로 수정 요청을 했을 때 정정 문구가 출력되는지 검증
+        assertTrue(s.contains("수정?id=value 형식으로 입력해주세요."));
     }
 }

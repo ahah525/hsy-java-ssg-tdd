@@ -45,6 +45,31 @@ public class App {
                         System.out.printf("%d / %s / %s\n", ws.getId(), ws.getAuthor(), ws.getContent());
                     }
                     break;
+                case "수정":
+                    int modifyId = rq.getIntParam("id", 0);
+                    // 잘못된 형식의 수정 요청에 대한 경우 예외 처리
+                    if (modifyId == 0) {
+                        System.out.println("수정?id=value 형식으로 입력해주세요.");
+                        break;
+                    }
+                    WiseSaying ws = findById(modifyId); // 수정할 명언
+                    // 존재하지 않는 명언에 대한 예외 처리
+                    if (ws == null) {
+                        System.out.printf("%d번 명언은 존재하지 않습니다.\n", modifyId);
+                        break;
+                    }
+                    // 명언 입력받기
+                    System.out.printf("명언(기존) : %s\n", ws.getContent());
+                    System.out.print("명언) ");
+                    String newContent = sc.nextLine();
+                    // 작가 입력받기
+                    System.out.printf("작가(기존) : %s\n", ws.getAuthor());
+                    System.out.print("작가) ");
+                    String newAuthor = sc.nextLine();
+                    // 명언 리스트에서 해당 명언 객체 수정
+                    ws.setContent(newContent);
+                    ws.setAuthor(newAuthor);
+                    break;
                 case "삭제":
                     int deleteId = rq.getIntParam("id", 0);
                     // 입력된 id가 없는 경우 예외 처리
@@ -52,9 +77,9 @@ public class App {
                         System.out.println("삭제?id=value 형식으로 입력해주세요.");
                         break;
                     }
-                    WiseSaying ws = findById(deleteId); // 삭제할 명언
+                    WiseSaying wsD = findById(deleteId); // 삭제할 명언
                     // 존재하지 않는 명언에 대한 예외 처리
-                    if (ws == null) {
+                    if (wsD == null) {
                         System.out.printf("%d번 명언은 존재하지 않습니다.\n", deleteId);
                         break;
                     }
