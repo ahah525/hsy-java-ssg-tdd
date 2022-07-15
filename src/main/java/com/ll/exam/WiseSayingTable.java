@@ -92,4 +92,11 @@ public class WiseSayingTable {
                 .boxed()
                 .collect(Collectors.toList());
     }
+
+    // id로 명언 삭제
+    public void removeById(int id) {
+        String path = "%s/wise_saying/%d.json".formatted(baseDir, id);
+
+        new File(path).delete();    // 해당 파일 삭제
+    }
 }

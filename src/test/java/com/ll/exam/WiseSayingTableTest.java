@@ -62,4 +62,12 @@ public class WiseSayingTableTest {
         assertThat(ws2.getContent()).isEqualTo("나에게 불가능이란 없다");
         assertThat(ws2.getAuthor()).isEqualTo("나폴레옹");
     }
+
+    @Test
+    public void 데이터_삭제() {
+        wiseSayingTable.removeById(1);
+        WiseSaying wiseSaying = wiseSayingTable.findById(1);
+        // 1번 명언 삭제 후, 파일에서 삭제됐는지 검증
+        assertThat(wiseSaying).isEqualTo(null);
+    }
 }
