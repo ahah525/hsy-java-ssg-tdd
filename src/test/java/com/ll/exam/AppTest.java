@@ -54,7 +54,7 @@ public class AppTest {
     }
 
     @Test
-    public void 등록_입력시_명언과_작가를_입력받는다() {
+    public void 등록_입력시_명언과_작가를_입력받기() {
         String s = AppTestRunner.run("""
                 등록
                 나의 죽음을 적에게 알리지 마라
@@ -65,5 +65,21 @@ public class AppTest {
         // 등록을 입력했을 때, 명언과 작가를 입력받는 문구가 출력되는지 검증
         assertTrue(s.contains("명언 : "));
         assertTrue(s.contains("작가 : "));
+    }
+
+    @Test
+    public void 등록시_자동으로_증가된_번호를_출력하기() {
+        String s = AppTestRunner.run("""
+                등록
+                나의 죽음을 적에게 알리지 마라
+                이순신
+                등록
+                나에게 불가능이란 없다
+                나폴레옹
+                종료
+                """);
+        // 명언, 작가 입력을 하고 등록을 했을 때, 자동으로 증가된 명언 번호가 출력되는지 검증
+        assertTrue(s.contains("1번 명언이 등록되었습니다."));
+        assertTrue(s.contains("2번 명언이 등록되었습니다."));
     }
 }
